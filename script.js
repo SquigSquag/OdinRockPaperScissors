@@ -1,48 +1,55 @@
 document.addEventListener("DOMContentLoaded", function () {
 
+let gameMessage = document.getElementById("message");
+
+let rock = document.getElementById("rock");
+let paper = document.getElementById("paper");
+let scissors = document.getElementById("scissors");
+
+let playerWins = document.getElementById("playerWinsLabel");
+let computerWins = document.getElementById("computerWinsLabel");
+
+rock.addEventListener("click",function () {
+  decideWinner("rock")});
+
+paper.addEventListener("click",function () {
+  decideWinner("paper")});
+
+scissors.addEventListener("click",function (){
+  decideWinner("scissors")});
+
+let playerWinCount = 0;
+let computerWinCount = 0;
+
+
+
 function computerChoice(){
-  let arraySelector = Math.floor(Math.random() * 2);
+  let arraySelector = Math.floor(Math.random() * 3);
   possibleAnswers = ["rock","paper","scissors"];
   return possibleAnswers[arraySelector];
 }
 
-function decideWinner(playerEntry,computerEntry){
-  if (playerEntry == "rock" && computerEntry == "scissors"){
-    return true;
-  }
-  else if (playerEntry == "paper" && computerEntry == "rock"){
-    return true;
-  }
-  else if (playerEntry == "scissors" && computerEntry == "paper"){
-    return true;
-  }
+function decideWinner(playerEntry){
+  let computerEntry = computerChoice();
+  if (playerEntry === computerEntry) {
+    gameMessage.innerHTML = "It's a tie!";
+  } 
+  else if (
+    (playerEntry === "rock" && computerEntry === "scissors") ||
+    (playerEntry === "paper" && computerEntry === "rock") ||
+    (playerEntry === "scissors" && computerEntry === "paper")
+  ) {
+    playerWinCount++; // Increment win count
+    playerWins.textContent = playerWinCount; // Update displayed win count
+    gameMessage.innerHTML = "Player wins!";
+  } 
   else{
-    return false;
-  }
-}
-function playGame(){
-  let userInput = prompt("Please choose rock, paper, or scissors:");
-  userInput = userInput.toLowerCase();
-  let possibleAnswers = ["rock","paper","scissors"];
-  if (possibleAnswers.includes(userInput)){
-    if(userInput == computerChoice()){
-      return alert("Try again! You tied!")
-    }
-    else if(decideWinner(userInput,computerChoice())){
-      return alert("You win!");
-    }
-    else{
-    return alert("You Lose!");
-    }
-  }
-  else{
-    return alert("Please try again, user input error");
+    computerWinCount++; // Increment win count
+    computerWins.textContent = computerWinCount; // Update displayed win count
+    gameMessage.innerHTML = "Computer wins!";
   }
 }
 
-
-let thebutton = document.getElementById("startgame");
-thebutton.addEventListener("click",playGame);
 
 
 });
